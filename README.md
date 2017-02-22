@@ -2,9 +2,9 @@
 
 *Production Animations with GSAP*
 
-[![npm version](https://badge.fury.io/js/blue-unicorn.svg)](https://badge.fury.io/js/blue-unicorn-gsap)
+[![npm version](https://badge.fury.io/js/blue-unicorn-gsap.svg)](https://badge.fury.io/js/blue-unicorn-gsap)
 [![Build Status](https://travis-ci.org/blue-unicorn/blue-unicorn.svg?branch=master)](https://travis-ci.org/blue-unicorn/blue-unicorn-gsap)
-[![Downloads](https://img.shields.io/npm/dm/blue-unicorn.svg)](https://www.npmjs.com/package/blue-unicorn-gsap)
+[![Downloads](https://img.shields.io/npm/dm/blue-unicorn-gsap.svg)](https://www.npmjs.com/package/blue-unicorn-gsap)
 
 ## Features
 
