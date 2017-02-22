@@ -5,6 +5,9 @@ module.exports = {
     dest: './dist/blue-unicorn-gsap.js',
     format: 'iife',
     moduleName: 'bu.gsap',
+    globals: {
+      'blue-unicorn': 'bu'
+    },
     plugins: [
         typescript({
             "allowUnreachableCode": false,
