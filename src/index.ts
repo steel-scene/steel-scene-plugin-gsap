@@ -29,9 +29,10 @@ const gsapAnimationEngine: types.IAnimationEngine = {
   transition(transitions: types.ITransition[], onStateChange: (stateName: string) => void): void {
     const t1 = new TimelineLite();
 
+    let position = 0;
     for (let x = 0, xlen = transitions.length; x < xlen; x++) {
       const {curve, state2} = transitions[x];
-      const duration = curve!.duration;
+      const duration = curve!.duration!;
       const easing = EaseLookup.find(curve!.easing);
 
       for (let i = 0, len = state2.length; i < len; i++) {
@@ -42,7 +43,7 @@ const gsapAnimationEngine: types.IAnimationEngine = {
         };
 
         if (easing) {
-          props['easing'] = easing;
+          props['ease'] = easing;
         }
 
         for (let prop in state) {
@@ -52,8 +53,10 @@ const gsapAnimationEngine: types.IAnimationEngine = {
         }
 
         // todo: figure out how to approximate distance between from and to
-        t1.from(target, duration * 0.001, props);
+        t1.from(target, duration * 0.001, props, position);
       }
+
+      position += duration;
     }
 
     t1.play();

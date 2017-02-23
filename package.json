@@ -21,7 +21,7 @@
     "rollup-plugin-typescript": "^0.8.1",
     "ts-node": "^1.7.2",
     "tslint": "^4.2.0",
-    "typescript": "^2.1.4",
+    "typescript": "^2.2.1",
     "uglify": "^0.1.5"
   },
   "homepage": "https://github.com/blue-unicorn/blue-unicorn-gsap#readme",
