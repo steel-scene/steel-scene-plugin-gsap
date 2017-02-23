@@ -1,4 +1,5 @@
 import { use, types } from 'blue-unicorn';
+import { toCamelCase } from './strings'
 declare const TweenMax: any;
 declare const TimelineLite: any;
 declare const EaseLookup: any;
@@ -32,7 +33,11 @@ const gsapAnimationEngine: types.IAnimationEngine = {
     let position = 0;
     for (let x = 0, xlen = transitions.length; x < xlen; x++) {
       const {curve, state2} = transitions[x];
-      const duration = curve!.duration!;
+
+      // convert to seconds from milliseconds
+      const duration = curve!.duration! * 0.001;
+
+      // find gsap easing function
       const easing = EaseLookup.find(curve!.easing);
 
       for (let i = 0, len = state2.length; i < len; i++) {
@@ -48,12 +53,12 @@ const gsapAnimationEngine: types.IAnimationEngine = {
 
         for (let prop in state) {
           if (prop !== 'ref' && prop !== 'easing') {
-            props[prop] = state[prop];
+            props[toCamelCase(prop)] = state[prop];
           }
         }
 
         // todo: figure out how to approximate distance between from and to
-        t1.to(target, duration * 0.001, props, position);
+        t1.to(target, duration, props, position);
       }
 
       position += duration;
