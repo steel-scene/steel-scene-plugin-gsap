@@ -4,7 +4,7 @@
     "url": "https://github.com/blue-unicorn/blue-unicorn-gsap/issues"
   },
   "dependencies": {
-    "blue-unicorn": "0.0.6"
+    "blue-unicorn": "0.0.7"
   },
   "description": "Animatino prototyping library",
   "devDependencies": {

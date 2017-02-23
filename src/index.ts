@@ -26,7 +26,7 @@ const gsapAnimationEngine: types.IAnimationEngine = {
       TweenMax.resumeAll();
     }
   },
-  transition(transitions: types.ITransition[]): void {
+  transition(transitions: types.ITransition[], onStateChange: (stateName: string) => void): void {
     const t1 = new TimelineLite();
 
     for (let x = 0, xlen = transitions.length; x < xlen; x++) {
@@ -37,7 +37,9 @@ const gsapAnimationEngine: types.IAnimationEngine = {
       for (let i = 0, len = state2.length; i < len; i++) {
         const state = state2[i];
         const target = state.ref;
-        const props = {};
+        const props = {
+          onComplete: () => onStateChange(curve!.state2)
+        };
 
         if (easing) {
           props['easing'] = easing;
