@@ -53,7 +53,7 @@ const gsapAnimationEngine: types.IAnimationEngine = {
         }
 
         // todo: figure out how to approximate distance between from and to
-        t1.from(target, duration * 0.001, props, position);
+        t1.to(target, duration * 0.001, props, position);
       }
 
       position += duration;
