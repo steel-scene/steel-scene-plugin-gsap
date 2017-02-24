@@ -5,9 +5,10 @@ declare const TimelineLite: any;
 declare const EaseLookup: any;
 
 const gsapAnimationEngine: types.IAnimationEngine = {
-  set(toState: types.ITarget[]): void {
-    for (let i = 0, len = toState.length; i < len; i++) {
-      const state = toState[i];
+  set(toState: types.IState): void {
+    const targets = toState.targets;
+    for (let i = 0, len = targets.length; i < len; i++) {
+      const state = targets[i];
       const target = state.ref;
       const props = {};
       for (let prop in state) {
@@ -19,36 +20,28 @@ const gsapAnimationEngine: types.IAnimationEngine = {
       TweenMax.set(target, props);
     }
   },
-  setPlayState(state: 'paused' | 'running'): void {
-    if (state === 'paused') {
-      TweenMax.pauseAll();
-    }
-    if (state === 'running') {
-      TweenMax.resumeAll();
-    }
-  },
-  transition(transitions: types.ITransition[], onStateChange: (stateName: string) => void): void {
+  transition(transitions: types.IEngineTransition[], onStateChange: (stateName: string) => void): void {
     const t1 = new TimelineLite();
 
     let position = 0;
     for (let x = 0, xlen = transitions.length; x < xlen; x++) {
-      const {curve, state2} = transitions[x];
+      const {duration, easing, toState} = transitions[x];
 
       // convert to seconds from milliseconds
-      const duration = curve!.duration! * 0.001;
+      const durationInSeconds = duration * 0.001;
 
       // find gsap easing function
-      const easing = EaseLookup.find(curve!.easing);
+      const easingFn = EaseLookup.find(easing);
 
-      for (let i = 0, len = state2.length; i < len; i++) {
-        const state = state2[i];
+      for (let i = 0, len = toState.targets.length; i < len; i++) {
+        const state = toState.targets[i];
         const target = state.ref;
         const props = {
-          onComplete: () => onStateChange(curve!.state2)
+          onComplete: () => onStateChange(toState.name)
         };
 
         if (easing) {
-          props['ease'] = easing;
+          props['ease'] = easingFn;
         }
 
         for (let prop in state) {
@@ -58,19 +51,13 @@ const gsapAnimationEngine: types.IAnimationEngine = {
         }
 
         // todo: figure out how to approximate distance between from and to
-        t1.to(target, duration, props, position);
+        t1.to(target, durationInSeconds, props, position);
       }
 
-      position += duration;
+      position += durationInSeconds;
     }
 
     t1.play();
-  },
-  setup(unicorn: types.IBlueUnicorn): void {
-    // nothing to do
-  },
-  teardown(unicorn: types.IBlueUnicorn): void {
-    // nothing to do
   }
 };
 
