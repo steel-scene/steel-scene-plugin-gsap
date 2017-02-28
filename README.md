@@ -2,9 +2,9 @@
 
 *SteelScene animations with GSAP*
 
-[![npm version](https://badge.fury.io/js/steel-scene-gsap.svg)](https://badge.fury.io/js/steel-scene-gsap)
-[![Build Status](https://travis-ci.org/steel-scene/steel-scene.svg?branch=master)](https://travis-ci.org/steel-scene/steel-scene-gsap)
-[![Downloads](https://img.shields.io/npm/dm/steel-scene-gsap.svg)](https://www.npmjs.com/package/steel-scene-gsap)
+[![npm version](https://badge.fury.io/js/steel-scene-gsap.svg)](https://badge.fury.io/js/steel-scene-plugin-gsap)
+[![Build Status](https://travis-ci.org/steel-scene/steel-scene-plugin.svg?branch=master)](https://travis-ci.org/steel-scene-plugin/steel-scene-plugin-gsap)
+[![Downloads](https://img.shields.io/npm/dm/steel-scene-plugin-gsap.svg)](https://www.npmjs.com/package/steel-scene-plugin-gsap)
 
 ## Why use SteelScene + GSAP?
 
