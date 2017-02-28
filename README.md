@@ -19,7 +19,7 @@
 Include these scripts
 ```html
 <script src="https://unpkg.com/steel-scene/dist/steel-scene.min.js"></script>
-<script src="https://unpkg.com/steel-scene-gsap/dist/steel-scene-gsap.min.js"></script>
+<script src="https://unpkg.com/steel-scene-plugin-gsap/dist/steel-scene-plugin-gsap.min.js"></script>
 ```
 
 ### Setup for bundling
