@@ -30,7 +30,7 @@ npm install steel-scene-plugin-gsap --save
 
 ## Docunentation
 
-- [SteelScene documentatin](https://github.com/steel-scene/steel-scene/blob/master/README.md)
+- [SteelScene documentation](https://github.com/steel-scene/steel-scene/blob/master/README.md)
 
 
 ## Contributions
