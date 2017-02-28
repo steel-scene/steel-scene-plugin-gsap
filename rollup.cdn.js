@@ -2,11 +2,11 @@ var typescript = require('rollup-plugin-typescript');
 
 module.exports = {
     entry: './src/index.ts',
-    dest: './dist/blue-unicorn-gsap.js',
+    dest: './dist/steel-scene-plugin-gsap.js',
     format: 'iife',
-    moduleName: 'bu.gsap',
+    moduleName: 'steel.gsap',
     globals: {
-      'blue-unicorn': 'bu'
+      'steel-scene': 'steel'
     },
     plugins: [
         typescript({

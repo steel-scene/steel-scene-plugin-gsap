@@ -1,10 +1,10 @@
-import { use, types } from 'blue-unicorn';
-import { toCamelCase } from './strings'
+import { use, types } from 'steel-scene';
+import { toCamelCase } from './strings';
 declare const TweenMax: any;
 declare const TimelineLite: any;
 declare const EaseLookup: any;
 
-const gsapAnimationEngine: types.IAnimationEngine = {
+use({
   set(toState: types.IState): void {
     const targets = toState.targets;
     for (let i = 0, len = targets.length; i < len; i++) {
@@ -59,6 +59,4 @@ const gsapAnimationEngine: types.IAnimationEngine = {
 
     t1.play();
   }
-};
-
-use(gsapAnimationEngine);
+});
