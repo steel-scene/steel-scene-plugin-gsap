@@ -1,61 +1,52 @@
 import { use, types } from 'steel-scene';
 import { toCamelCase } from './strings';
-declare const TweenMax: any;
+
 declare const TimelineLite: any;
 declare const EaseLookup: any;
 
-use({
-  set(toState: types.IState): void {
-    const targets = toState.targets;
-    for (let i = 0, len = targets.length; i < len; i++) {
-      const state = targets[i];
-      const target = state.ref;
-      const props = {};
-      for (let prop in state) {
-        if (prop === 'ref' || prop === 'easing') {
-          continue;
-        }
-        props[prop] = state[prop];
-      }
-      TweenMax.set(target, props);
-    }
-  },
-  transition(transitions: types.IEngineTransition[], onStateChange: (stateName: string) => void): void {
-    const t1 = new TimelineLite();
+const ignoredProperties = ['ref', 'default', 'easing'];
 
+use({
+  set(toState: types.ISetOperation[]): void {
+    toState.forEach(state => TweenLite.set(state.targets, state.set));
+  },
+  transition(operations: types.ITweenOperation[][], onStateChange: (stateName: string) => void): void {
+    const t1 = new TimelineLite();
     let position = 0;
-    for (let x = 0, xlen = transitions.length; x < xlen; x++) {
-      const {duration, easing, toState} = transitions[x];
+
+    operations.forEach(operationGroup => {
+      const { duration, easing } = operationGroup[0];
 
       // convert to seconds from milliseconds
-      const durationInSeconds = duration * 0.001;
+      const durationInSeconds = Number(duration) * 0.001;
 
       // find gsap easing function
       const easingFn = EaseLookup.find(easing);
 
-      for (let i = 0, len = toState.targets.length; i < len; i++) {
-        const state = toState.targets[i];
-        const target = state.ref;
+      operationGroup.forEach(operation => {
+        const {keyframes, targets} = operation;
+        const toState = keyframes[keyframes.length - 1];
+
         const props = {
-          onComplete: () => onStateChange(toState.name)
+          onComplete: () => onStateChange(operation.name)
         };
 
         if (easing) {
           props['ease'] = easingFn;
         }
 
-        for (let prop in state) {
-          if (prop !== 'ref' && prop !== 'easing') {
-            props[toCamelCase(prop)] = state[prop];
+        for (let prop in toState) {
+          if (ignoredProperties.indexOf(prop) === -1) {
+            props[toCamelCase(prop)] = toState[prop];
           }
         }
 
         // todo: figure out how to approximate distance between from and to
-        t1.to(target, durationInSeconds, props, position);
-      }
+        t1.to(targets, durationInSeconds, props, position);
+      });
 
       position += durationInSeconds;
-    }
+    });
 
     t1.play();
   }
