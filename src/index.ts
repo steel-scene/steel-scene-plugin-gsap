@@ -6,16 +6,31 @@ declare const EaseLookup: any;
 
 const ignoredProperties = ['ref', 'default', 'easing'];
 
+const inProgress: { [key: number]: typeof TimelineLite } = {};
+
 use({
   set(toState: types.ISetOperation[]): void {
     toState.forEach(state => TweenLite.set(state.targets, state.set));
   },
-  transition(operations: types.ITweenOperation[][], onStateChange: (stateName: string) => void): void {
-    const t1 = new TimelineLite();
-    let position = 0;
+  transition(timeline: types.ITimelineTween, onStateChange: (stateName: string) => void): void {
+    const id = timeline.id;
 
-    operations.forEach(operationGroup => {
-      const { duration, easing } = operationGroup[0];
+    // cancel any in progress timelines
+    let t1 = inProgress[id];
+    if (t1) {
+      t1.clear();
+    } else {
+      t1 = new TimelineLite({
+        onComplete(): void {
+          // remove timeline from in progress
+          inProgress[id] = undefined;
+        }
+      });
+    }
+
+    let position = 0;
+    timeline.states.forEach(stateGroup => {
+      const { duration, easing, stateName } = stateGroup;
 
       // convert to seconds from milliseconds
       const durationInSeconds = Number(duration) * 0.001;
@@ -23,15 +38,17 @@ use({
       // find gsap easing function
       const easingFn = EaseLookup.find(easing);
 
-      operationGroup.forEach(operation => {
-        const {keyframes, targets} = operation;
+      stateGroup.tweens.forEach(tween => {
+        const {keyframes, targets} = tween;
         const toState = keyframes[keyframes.length - 1];
 
         const props = {
-          onComplete: () => onStateChange(operation.name)
+          onComplete: () => {
+            onStateChange(stateName);
+          }
         };
 
-        if (easing) {
+        if (easingFn) {
           props['ease'] = easingFn;
         }
 
@@ -48,6 +65,8 @@ use({
       position += durationInSeconds;
     });
 
+    // add to list of playing timelines
+    inProgress[id] = t1;
     t1.play();
   }
 });
