@@ -4,7 +4,7 @@
     "url": "https://github.com/steel-scene/steel-scene-plugin-gsap/issues"
   },
   "dependencies": {
-    "steel-scene": "0.6.2-beta"
+    "steel-scene": "^0.7.0"
   },
   "description": "SteelScene Animations with GSAP",
   "devDependencies": {
