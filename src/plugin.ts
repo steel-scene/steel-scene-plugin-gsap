@@ -75,7 +75,7 @@ export const plugin: IAnimationEngine = {
           t1.to(target, durationInSeconds, props, position)
         }
 
-        position += duration
+        position += durationInSeconds
       }
 
       // add to list of playing timelines
